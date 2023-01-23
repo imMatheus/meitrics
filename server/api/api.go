@@ -1,12 +1,12 @@
 package api
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/immatheus/meitrics/server/database"
-	"go.mongodb.org/mongo-driver/bson"
 )
 
 func SetupRoutes(app *fiber.App) {
@@ -24,29 +24,39 @@ func SetupRoutes(app *fiber.App) {
 	})
 
 	app.Get("/health", Health)
-	app.Get("/projects", Projects)
+	app.Get("/projects", GetAllProjects)
+	app.Get("/projects/:id", GetProjectById)
 }
 
 func Health(c *fiber.Ctx) error {
 	return c.SendString("Ok!")
 }
 
-func Projects(c *fiber.Ctx) error {
-	// get all records as a cursor
-	query := bson.D{{}}
-	cursor, err := database.Ref.Db.Collection("projects").Find(c.Context(), query)
+func GetAllProjects(c *fiber.Ctx) error {
+	projects, err := database.GetAllProjects(c)
+
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	var projects []database.Project = make([]database.Project, 0)
-
-	// iterate the cursor and decode each item into a Project
-	if err := cursor.All(c.Context(), &projects); err != nil {
-		return c.Status(500).SendString(err.Error())
-
-	}
 	// return projects list in JSON format
 	return c.JSON(projects)
+
+}
+
+func GetProjectById(c *fiber.Ctx) error {
+	// get id by params
+	id := c.Params("id")
+	fmt.Println("made it to route")
+	fmt.Println(id)
+
+	project, err := database.GetProjectById(c, id)
+
+	if err != nil {
+		return c.Status(404).SendString(err.Error())
+	}
+
+	// return projects list in JSON format
+	return c.JSON(project)
 
 }
