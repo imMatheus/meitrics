@@ -13,14 +13,14 @@ type MongoInstance struct {
 	Db     *mongo.Database
 }
 
-var mg MongoInstance
+var Ref MongoInstance
 
 type Project struct {
 	ID   string `json:"id,omitempty" bson:"_id,omitempty"`
 	Name string `json:"name"`
 }
 
-func Connect() error {
+func (m *MongoInstance) Connect() error {
 	uri := "mongodb+srv://meitrics:lMKJ9kByO9W45o1m@cluster0.bisw8pt.mongodb.net/meitrics?retryWrites=true&w=majority"
 	dbName := "meitrics"
 	client, err := mongo.NewClient(options.Client().ApplyURI(uri))
@@ -39,7 +39,7 @@ func Connect() error {
 		return err
 	}
 
-	mg = MongoInstance{
+	Ref = MongoInstance{
 		Client: client,
 		Db:     db,
 	}
