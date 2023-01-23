@@ -1,7 +1,15 @@
 package main
 
-import "fmt"
+import (
+	"github.com/gofiber/fiber/v2"
+
+	"github.com/immatheus/meitrics/server/api"
+)
 
 func main() {
-	fmt.Println("hej")
+	app := fiber.New()
+
+	api.SetupRoutes(app)
+
+	app.Listen(":3000")
 }
