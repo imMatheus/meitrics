@@ -1,7 +1,5 @@
-<div class="bg-gray-900 py-24 sm:px-6 sm:py-32 lg:px-8">
-	<div
-		class="relative isolate mx-auto max-w-7xl overflow-hidden px-6 pt-16 sm:rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0"
-	>
+<div class="">
+	<div class="relative isolate overflow-hidden px-20 lg:flex lg:gap-x-20">
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			viewBox="0 0 1024 1024"
@@ -30,7 +28,7 @@
 			</defs>
 		</svg>
 		<div class="mx-auto max-w-md text-center lg:mx-0 lg:flex-auto lg:py-32 lg:text-left">
-			<h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+			<h2 class="text-3xl font-bold tracking-tight sm:text-4xl">
 				Boost your productivity.<br />Start using our app today.
 			</h2>
 			<p class="mt-6 text-lg leading-8 text-gray-300">
@@ -40,10 +38,10 @@
 			<div class="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
 				<a
 					href="#"
-					class="rounded-md bg-white px-3.5 py-1.5 text-base font-semibold leading-7 text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+					class="rounded-md bg-text px-3.5 py-1.5 text-base font-semibold leading-7 text-bg shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
 					>Get started</a
 				>
-				<a href="#" class="text-base font-semibold leading-7 text-white"
+				<a href="#" class="text-base font-semibold leading-7"
 					>Learn more <span aria-hidden="true">→</span></a
 				>
 			</div>
