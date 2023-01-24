@@ -25,7 +25,7 @@ func GetAllLogsForProjectById(c *fiber.Ctx, id string) ([]Log, error) {
 	}
 
 	// get all records as a cursor
-	query := bson.D{{Key: "project_id", Value: _id}}
+	query := bson.D{{Key: "project_id", Value: _id}, {Key: "type", Value: "error"}}
 
 	cursor, err := Ref.Db.Collection("logs").Find(c.Context(), query)
 	if err != nil {
