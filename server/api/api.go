@@ -25,8 +25,8 @@ func SetupRoutes(app *fiber.App) {
 	app.Get("/projects", GetAllProjects)
 	app.Post("/project", CreateProject)
 	app.Get("/projects/:id", GetProjectById)
-	app.Get("/projects/:id/logs", GetLogsForProject)
-	app.Post("/projects/:id/log", CreateLog)
+	app.Get("/projects/:id/logs", GetLogForProject)
+	app.Post("/log", CreateLog)
 }
 
 func Health(c *fiber.Ctx) error {

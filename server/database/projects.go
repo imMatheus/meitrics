@@ -54,6 +54,23 @@ func GetProjectById(c *fiber.Ctx, id string) (Project, error) {
 	return project, nil
 }
 
+func ValidateKeysForProject(c *fiber.Ctx, publicKey string, secretKey string) (string, error) {
+	_id, err := primitive.ObjectIDFromHex(publicKey)
+
+	if err != nil {
+		return "", err
+	}
+
+	query := bson.D{{Key: "_id", Value: _id}, {Key: "secretkey", Value: secretKey}}
+
+	var project Project
+	if err := Ref.Db.Collection("projects").FindOne(c.Context(), query).Decode(&project); err != nil {
+		return "", err
+	}
+
+	return project.ID, nil
+}
+
 // this could, and probably should, be improved
 func randomString(length int) string {
 	rand.Seed(time.Now().UnixNano())

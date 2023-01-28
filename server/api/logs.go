@@ -7,7 +7,7 @@ import (
 	"github.com/immatheus/meitrics/server/database"
 )
 
-func GetLogsForProject(c *fiber.Ctx) error {
+func GetLogForProject(c *fiber.Ctx) error {
 	// get id by params
 	id := c.Params("id")
 	fmt.Println("made it to get logs route route")
@@ -26,7 +26,19 @@ func GetLogsForProject(c *fiber.Ctx) error {
 func CreateLog(c *fiber.Ctx) error {
 	fmt.Println("made it to lgo route")
 
-	id := c.Params("id")
+	headers := c.GetReqHeaders()
+	public := headers["Public-Key"]
+	secret := headers["Secret-Key"]
+	fmt.Println(headers)
+	fmt.Println(public)
+	fmt.Println(secret)
+
+	id, err := database.ValidateKeysForProject(c, public, secret)
+
+	if err != nil {
+		return c.Status(404).SendString(err.Error())
+	}
+
 	project, err := database.CreateLogForProject(c, id)
 
 	if err != nil {
