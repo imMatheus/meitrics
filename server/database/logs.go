@@ -1,6 +1,7 @@
 package database
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -43,6 +44,16 @@ func GetAllLogsForProjectById(c *fiber.Ctx, id string) ([]Log, error) {
 	return logs, nil
 }
 
+func contains(s []string, str string) bool {
+	for _, v := range s {
+		if v == str {
+			return true
+		}
+	}
+
+	return false
+}
+
 func CreateLogForProject(c *fiber.Ctx, id string) (Log, error) {
 	// check that the given project id exists
 	_, err := GetProjectById(c, id)
@@ -63,6 +74,18 @@ func CreateLogForProject(c *fiber.Ctx, id string) (Log, error) {
 	// Parse body into struct
 	if err := c.BodyParser(log); err != nil {
 		return Log{}, err
+	}
+
+	// validating that the client sent a valid message field
+	if log.Message == "" {
+		return Log{}, fmt.Errorf("bitch give me a message")
+	}
+
+	ValidTypes := []string{"error", "warning", "info", "other"}
+
+	// validate the log type is correct
+	if !contains(ValidTypes, log.Type) {
+		log.Type = "other"
 	}
 
 	// force MongoDB to always set its own generated ObjectIDs

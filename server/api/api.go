@@ -18,11 +18,12 @@ func SetupRoutes(app *fiber.App) {
 
 	// Welcome endpoint
 	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello, World 69!")
+		return c.SendString("Hello, World!")
 	})
 
 	app.Get("/health", Health)
 	app.Get("/projects", GetAllProjects)
+	app.Post("/project", CreateProject)
 	app.Get("/projects/:id", GetProjectById)
 	app.Get("/projects/:id/logs", GetLogsForProject)
 	app.Post("/projects/:id/log", CreateLog)
