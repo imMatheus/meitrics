@@ -15,6 +15,8 @@ func GetLogForProject(c *fiber.Ctx) error {
 
 	logs, err := database.GetAllLogsForProjectById(c, id)
 
+	fmt.Println("logs here")
+	fmt.Println(logs)
 	if err != nil {
 		return c.Status(404).SendString(err.Error())
 	}

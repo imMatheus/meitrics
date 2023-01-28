@@ -19,9 +19,7 @@
 	<Graph />
 
 	<h3 class="font-bold">Browse logs</h3>
-	<p class="text-text-dimmed mb-2 text-sm">
-		Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eos, reiciendis!
-	</p>
+	<p class="text-text-dimmed mb-2 text-sm">Filter all your logs just the way you want it</p>
 
 	<div
 		class="w-max mb-5 flex text-sm font-medium rounded-md overflow-hidden border border-text divide-x divide-text"
@@ -42,7 +40,6 @@
 	</div>
 	<LogsTable logs={value} />
 
-	<pre>{JSON.stringify(value, null, 2)}</pre>
 	<!-- pending was fulfilled -->
 {:catch error}
 	<p>error</p>

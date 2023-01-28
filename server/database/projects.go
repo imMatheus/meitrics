@@ -11,11 +11,12 @@ import (
 )
 
 type Project struct {
-	ID        string    `json:"id,omitempty" bson:"_id,omitempty"`
-	Name      string    `json:"name"`
-	SecretKey string    `json:"secretKey"`
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
+	ID            string    `json:"id,omitempty" bson:"_id,omitempty"`
+	Name          string    `json:"name"`
+	SecretKey     string    `json:"secretKey"`
+	TotalLogCount int       `json:"totalLogCount"`
+	CreatedAt     time.Time `json:"createdAt"`
+	UpdatedAt     time.Time `json:"updatedAt"`
 }
 
 func GetAllProjects(c *fiber.Ctx) ([]Project, error) {
@@ -52,6 +53,17 @@ func GetProjectById(c *fiber.Ctx, id string) (Project, error) {
 	}
 
 	return project, nil
+}
+
+func IncrementProjectTotalLogCount(c *fiber.Ctx, id primitive.ObjectID) error {
+	query := bson.D{{Key: "_id", Value: id}}
+	update := bson.D{{Key: "$inc", Value: bson.D{{Key: "totalLogCount", Value: 1}}}}
+
+	if _, err := Ref.Db.Collection("projects").UpdateOne(c.Context(), query, update); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func ValidateKeysForProject(c *fiber.Ctx, publicKey string, secretKey string) (string, error) {

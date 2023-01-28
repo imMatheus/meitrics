@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Log } from '$lib/types';
 	export let logs: Log[];
+	import classNames from 'classnames';
 </script>
 
 <div class="relative min-w-0 max-md:!overflow-y-visible max-md:overflow-x-scroll">
@@ -25,7 +26,20 @@
 						<div
 							class="peer flex h-full min-w-[0rem] max-w-lg items-center overflow-hidden text-ellipsis whitespace-nowrap px-2"
 						>
-							{log.type}
+							<div
+								class={classNames(
+									'rounded-full px-2 py-0.5 text-xs',
+									log.type === 'error'
+										? 'bg-red-100 text-red-900'
+										: log.type === 'info'
+										? 'bg-sky-100 text-sky-900'
+										: log.type === 'warning'
+										? 'bg-amber-100 text-amber-900'
+										: 'bg-gray-100'
+								)}
+							>
+								{log.type || 'other'}
+							</div>
 						</div>
 					</td>
 
@@ -41,7 +55,10 @@
 						<div
 							class="h-ful peer flex max-w-lg items-center overflow-hidden text-ellipsis whitespace-nowrap px-2"
 						>
-							{log.created_at}
+							{new Intl.DateTimeFormat(undefined, {
+								dateStyle: 'short',
+								timeStyle: 'medium'
+							}).format(new Date(log.created_at))}
 						</div>
 					</td>
 				</tr>
