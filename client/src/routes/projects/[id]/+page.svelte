@@ -3,6 +3,7 @@
 	export let data: { id: string };
 	import classNames from 'classNames';
 	import LogsTable from '$lib/components/LogsTable.svelte';
+	import Graph from '$lib/components/Graph.svelte';
 
 	// https://dribbble.com/shots/18890801-Online-course-dashboard-Untitled-UI
 	// https://dribbble.com/shots/16915378-UI-Details-Application-Logs-Server-Traffic-Data
@@ -15,6 +16,8 @@
 {#await pending}
 	<p>loading...</p>
 {:then value}
+	<Graph />
+
 	<h3 class="font-bold">Browse logs</h3>
 	<p class="text-text-dimmed mb-2 text-sm">
 		Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eos, reiciendis!
