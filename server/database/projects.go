@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+	"math/rand"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -12,8 +13,9 @@ import (
 type Project struct {
 	ID        string    `json:"id,omitempty" bson:"_id,omitempty"`
 	Name      string    `json:"name"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	SecretKey string    `json:"secretKey"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 func GetAllProjects(c *fiber.Ctx) ([]Project, error) {
@@ -52,6 +54,14 @@ func GetProjectById(c *fiber.Ctx, id string) (Project, error) {
 	return project, nil
 }
 
+// this could, and probably should, be improved
+func randomString(length int) string {
+	rand.Seed(time.Now().UnixNano())
+	b := make([]byte, length)
+	rand.Read(b)
+	return fmt.Sprintf("%x", b)[:length]
+}
+
 func CreateProject(c *fiber.Ctx) (Project, error) {
 	collection := Ref.Db.Collection("projects")
 
@@ -69,6 +79,7 @@ func CreateProject(c *fiber.Ctx) (Project, error) {
 
 	// force MongoDB to always set its own generated ObjectIDs
 	project.ID = ""
+	project.SecretKey = randomString(30)
 	project.CreatedAt = time.Now()
 	project.UpdatedAt = time.Now()
 

@@ -8,7 +8,7 @@
 	<p>loading...</p>
 {:then projects}
 	<h3 class="font-bold text-3xl mb-4">Your projects</h3>
-	<div class="grid sm:grid-cols-2 lg:grid-cols-3 ">
+	<div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 ">
 		{#each projects as project}
 			<a
 				href={`/projects/${project.id}`}
