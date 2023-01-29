@@ -12,11 +12,13 @@ import (
 
 type Log struct {
 	ID        string             `json:"id,omitempty" bson:"_id,omitempty"`
-	ProjectID primitive.ObjectID `json:"project_id,omitempty" bson:"projectId,omitempty"`
+	ProjectID primitive.ObjectID `json:"projectId,omitempty" bson:"projectId,omitempty"`
 	Message   string             `json:"message" bson:"message"`
 	Type      string             `json:"type" bson:"type"`
-	CreatedAt time.Time          `json:"created_at" bson:"createdAt"`
-	UpdatedAt time.Time          `json:"updated_at" bson:"updatedAt"`
+	Ip        string             `json:"ip" bson:"ip"`
+	Url       string             `json:"url" bson:"url"`
+	CreatedAt time.Time          `json:"createdAt" bson:"createdAt"`
+	UpdatedAt time.Time          `json:"updatedAt" bson:"updatedAt"`
 }
 
 func GetAllLogsForProjectById(c *fiber.Ctx, id string) ([]Log, error) {
@@ -95,6 +97,7 @@ func CreateLogForProject(c *fiber.Ctx, id string) (Log, error) {
 
 	// force MongoDB to always set its own generated ObjectIDs
 	log.ID = ""
+	log.Ip = c.IP()
 	log.ProjectID = _id
 	log.CreatedAt = time.Now()
 	log.UpdatedAt = time.Now()

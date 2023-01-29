@@ -14,7 +14,7 @@ type Project struct {
 	ID            string    `json:"id,omitempty" bson:"_id,omitempty"`
 	Name          string    `json:"name" bson:"name"`
 	TotalLogCount int       `json:"totalLogCount" bson:"totalLogCount"`
-	CreatedAt     time.Time `json:"createdAt" bson:"createAt"`
+	CreatedAt     time.Time `json:"createdAt" bson:"createdAt"`
 	UpdatedAt     time.Time `json:"updatedAt" bson:"updatedAt"`
 }
 
@@ -23,7 +23,7 @@ type ProjectWithSecretKey struct {
 	Name          string    `json:"name" bson:"name"`
 	SecretKey     string    `json:"secretKey" bson:"secretKey"`
 	TotalLogCount int       `json:"totalLogCount" bson:"totalLogCount"`
-	CreatedAt     time.Time `json:"createdAt" bson:"createAt"`
+	CreatedAt     time.Time `json:"createdAt" bson:"createdAt"`
 	UpdatedAt     time.Time `json:"updatedAt" bson:"updatedAt"`
 }
 
