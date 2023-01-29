@@ -1,3 +1,3 @@
-<p class="text-text-dimmed mb-5 text-sm">
+<h2 class="text-lg font-semibold">
 	<slot />
-</p>
+</h2>

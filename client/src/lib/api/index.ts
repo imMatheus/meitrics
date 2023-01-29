@@ -27,5 +27,12 @@ export const ApiService = {
 		const { data } = await axios.post<Project>(`/project`, { name });
 
 		return data;
+	},
+	generateNewPrivateKey: async (id: string) => {
+		console.log('create new private key');
+		const { data } = await axios.patch<string>(`/projects/${id}/update-private-key`);
+		console.log(data);
+
+		return data;
 	}
 };

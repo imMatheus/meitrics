@@ -1,9 +1,6 @@
 <script lang="ts">
 	import classNames from 'classnames';
 	import { project } from '../store';
-	// export let data: { id: string; pathname: string };
-
-	// $: $project = data;
 
 	const links = [
 		{

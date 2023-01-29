@@ -92,11 +92,30 @@ func ValidateKeysForProject(c *fiber.Ctx, publicKey string, secretKey string) (s
 }
 
 // this could, and probably should, be improved
-func randomString(length int) string {
+func generatePrivateKey() string {
+	length := 30
 	rand.Seed(time.Now().UnixNano())
 	b := make([]byte, length)
 	rand.Read(b)
 	return fmt.Sprintf("%x", b)[:length]
+}
+
+func ChangePrivateKeyForProject(c *fiber.Ctx, id string) (string, error) {
+	_id, err := primitive.ObjectIDFromHex(id)
+
+	if err != nil {
+		return "", err
+	}
+
+	query := bson.D{{Key: "_id", Value: _id}}
+	newKey := generatePrivateKey()
+	update := bson.D{{Key: "$set", Value: bson.D{{Key: "privateKey", Value: newKey}}}}
+
+	if _, err := Ref.Db.Collection("projects").UpdateOne(c.Context(), query, update); err != nil {
+		return "", err
+	}
+
+	return newKey, nil
 }
 
 func CreateProject(c *fiber.Ctx) (ProjectWithSecretKey, error) {
@@ -116,7 +135,7 @@ func CreateProject(c *fiber.Ctx) (ProjectWithSecretKey, error) {
 
 	// force MongoDB to always set its own generated ObjectIDs
 	project.ID = ""
-	project.SecretKey = randomString(30)
+	project.SecretKey = generatePrivateKey()
 	project.CreatedAt = time.Now()
 	project.UpdatedAt = time.Now()
 
