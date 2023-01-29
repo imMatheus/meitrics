@@ -7,6 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type Log struct {
@@ -28,7 +29,11 @@ func GetAllLogsForProjectById(c *fiber.Ctx, id string) ([]Log, error) {
 	// get all records as a cursor
 	query := bson.D{{Key: "project_id", Value: _id}}
 
-	cursor, err := Ref.Db.Collection("logs").Find(c.Context(), query)
+	// limit first 50
+	l := int64(50)
+	fOpt := options.FindOptions{Limit: &l, Sort: bson.D{{Key: "createdat", Value: -1}}}
+
+	cursor, err := Ref.Db.Collection("logs").Find(c.Context(), query, &fOpt)
 	if err != nil {
 		return nil, err
 	}
