@@ -13,6 +13,14 @@ import (
 type Project struct {
 	ID            string    `json:"id,omitempty" bson:"_id,omitempty"`
 	Name          string    `json:"name" bson:"name"`
+	TotalLogCount int       `json:"totalLogCount" bson:"totalLogCount"`
+	CreatedAt     time.Time `json:"createdAt" bson:"createAt"`
+	UpdatedAt     time.Time `json:"updatedAt" bson:"updatedAt"`
+}
+
+type ProjectWithSecretKey struct {
+	ID            string    `json:"id,omitempty" bson:"_id,omitempty"`
+	Name          string    `json:"name" bson:"name"`
 	SecretKey     string    `json:"secretKey" bson:"secretKey"`
 	TotalLogCount int       `json:"totalLogCount" bson:"totalLogCount"`
 	CreatedAt     time.Time `json:"createdAt" bson:"createAt"`
@@ -91,19 +99,19 @@ func randomString(length int) string {
 	return fmt.Sprintf("%x", b)[:length]
 }
 
-func CreateProject(c *fiber.Ctx) (Project, error) {
+func CreateProject(c *fiber.Ctx) (ProjectWithSecretKey, error) {
 	collection := Ref.Db.Collection("projects")
 
 	// New Log struct
-	project := new(Project)
+	project := new(ProjectWithSecretKey)
 	// Parse body into struct
 	if err := c.BodyParser(project); err != nil {
-		return Project{}, err
+		return ProjectWithSecretKey{}, err
 	}
 
 	// validating that the client sent a valid message field
 	if project.Name == "" {
-		return Project{}, fmt.Errorf("please provide a valid name for your project")
+		return ProjectWithSecretKey{}, fmt.Errorf("please provide a valid name for your project")
 	}
 
 	// force MongoDB to always set its own generated ObjectIDs
@@ -115,7 +123,7 @@ func CreateProject(c *fiber.Ctx) (Project, error) {
 	// insert the record
 	insertionResult, err := collection.InsertOne(c.Context(), project)
 	if err != nil {
-		return Project{}, err
+		return ProjectWithSecretKey{}, err
 	}
 
 	// get the just inserted record in order to return it as response
@@ -123,7 +131,7 @@ func CreateProject(c *fiber.Ctx) (Project, error) {
 	createdRecord := collection.FindOne(c.Context(), filter)
 
 	// decode the Mongo record into Log
-	createdProject := &Project{}
+	createdProject := &ProjectWithSecretKey{}
 	createdRecord.Decode(createdProject)
 
 	// return the created Log in JSON format

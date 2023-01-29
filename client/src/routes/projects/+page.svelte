@@ -2,6 +2,7 @@
 	import { ApiService } from '$lib/api';
 
 	const pending = ApiService.getProjects();
+	console.log(pending);
 </script>
 
 {#await pending}
