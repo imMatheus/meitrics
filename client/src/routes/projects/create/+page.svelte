@@ -1,10 +1,18 @@
 <script lang="ts">
-	let name = '';
 	import { ApiService } from '$lib/api';
+	let name = '';
+	let error = '';
 
 	async function handleCreate() {
-		const res = await ApiService.createNewProject(name);
-		console.log(res);
+		try {
+			const res = await ApiService.createNewProject(name);
+			console.log(res);
+			if (res.id) {
+				window.location.href = `/projects/${res.id}`;
+			}
+		} catch (error: any) {
+			error = error.message;
+		}
 	}
 </script>
 
@@ -23,5 +31,9 @@
 		class="focus:border-primary rounded-md border border-black px-2 py-1 text-sm outline-none"
 	/>
 </div>
+
+{#if error}
+	<div class="rounded-md bg-red-100 p-5 text-red-900">{error}</div>
+{/if}
 
 <button disabled={!name} on:click={handleCreate} class="btn my-4">Create new project</button>
