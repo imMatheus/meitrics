@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { ApiService } from '$lib/api';
+	import LoadSpinner from '$lib/components/LoadSpinner.svelte';
 
 	const pending = ApiService.getProjects();
 	console.log(pending);
 </script>
 
 {#await pending}
-	<p>loading...</p>
+	<LoadSpinner />
 {:then projects}
 	<div class="flex justify-between gap-3 items-center">
 		<h3 class="font-bold text-3xl mb-4">Your projects</h3>

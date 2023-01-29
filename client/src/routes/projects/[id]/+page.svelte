@@ -1,19 +1,22 @@
 <script lang="ts">
 	import { ApiService } from '$lib/api';
-	export let data: { id: string };
+
 	import LogsTable from '$lib/components/LogsTable.svelte';
+	import LoadSpinner from '$lib/components/LoadSpinner.svelte';
 	import Graph from '$lib/components/Graph.svelte';
 	import classNames from 'classnames';
+	import { project } from './store';
+
 	// https://dribbble.com/shots/18890801-Online-course-dashboard-Untitled-UI
 	// https://dribbble.com/shots/16915378-UI-Details-Application-Logs-Server-Traffic-Data
-	const pending = ApiService.getLogsForProject(data.id || '');
-	console.log(data);
+	const pending = ApiService.getLogsForProject($project.id || '');
+	console.log($project);
 	const filters = ['All', 'Some', 'Maybe all'] as const;
 	let selectedFilter: (typeof filters)[number] = 'All';
 </script>
 
 {#await pending}
-	<p>loading...</p>
+	<LoadSpinner />
 {:then value}
 	<Graph />
 
@@ -38,9 +41,6 @@
 		{/each}
 	</div>
 	<LogsTable logs={value} />
-
-	<!-- pending was fulfilled -->
 {:catch error}
 	<p>error</p>
-	<!-- pending was rejected -->
 {/await}
