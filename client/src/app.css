@@ -5,3 +5,9 @@
 body {
 	@apply bg-bg text-text-lighten;
 }
+
+@layer components {
+	.btn {
+		@apply rounded-md bg-text-lighten px-4 py-1.5 text-sm text-bg-lighten transition-all hover:bg-text disabled:opacity-60;
+	}
+}

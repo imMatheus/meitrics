@@ -37,10 +37,6 @@ func GetProjectById(c *fiber.Ctx) error {
 	return c.JSON(project)
 }
 
-type CreateProjectDTO struct {
-	Name string `json:"name"`
-}
-
 func CreateProject(c *fiber.Ctx) error {
 	fmt.Println("made it to project route")
 

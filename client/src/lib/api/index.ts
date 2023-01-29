@@ -16,9 +16,15 @@ export const ApiService = {
 
 		return data;
 	},
-	GetLogsForProject: async (id: string) => {
+	getLogsForProject: async (id: string) => {
 		console.log('get Project by id');
 		const { data } = await axios.get<Log[]>(`/projects/${id}/logs`);
+
+		return data;
+	},
+	createNewProject: async (name: string) => {
+		console.log('create new project');
+		const { data } = await axios.post<Project>(`/project`, { name });
 
 		return data;
 	}

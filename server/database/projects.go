@@ -12,11 +12,11 @@ import (
 
 type Project struct {
 	ID            string    `json:"id,omitempty" bson:"_id,omitempty"`
-	Name          string    `json:"name"`
-	SecretKey     string    `json:"secretKey"`
-	TotalLogCount int       `json:"totalLogCount"`
-	CreatedAt     time.Time `json:"createdAt"`
-	UpdatedAt     time.Time `json:"updatedAt"`
+	Name          string    `json:"name" bson:"name"`
+	SecretKey     string    `json:"secretKey" bson:"secretKey"`
+	TotalLogCount int       `json:"totalLogCount" bson:"totalLogCount"`
+	CreatedAt     time.Time `json:"createdAt" bson:"createAt"`
+	UpdatedAt     time.Time `json:"updatedAt" bson:"updatedAt"`
 }
 
 func GetAllProjects(c *fiber.Ctx) ([]Project, error) {
@@ -73,7 +73,7 @@ func ValidateKeysForProject(c *fiber.Ctx, publicKey string, secretKey string) (s
 		return "", err
 	}
 
-	query := bson.D{{Key: "_id", Value: _id}, {Key: "secretkey", Value: secretKey}}
+	query := bson.D{{Key: "_id", Value: _id}, {Key: "secretKey", Value: secretKey}}
 
 	var project Project
 	if err := Ref.Db.Collection("projects").FindOne(c.Context(), query).Decode(&project); err != nil {
