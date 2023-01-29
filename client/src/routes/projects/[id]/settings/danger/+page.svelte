@@ -4,7 +4,7 @@
 	import HeaderDescription from '../HeaderDescription.svelte';
 	import SubHeader from '../SubHeader.svelte';
 	import { project } from '../../store';
-	let privateKey = '';
+	let secretKey = '';
 
 	console.log($project);
 </script>
@@ -27,27 +27,27 @@
 		</button>
 	</div>
 	<div class="mb-6 rounded-md border bg-red-100 p-5 text-red-900">
-		<h3 class="font-semibold">Private key</h3>
+		<h3 class="font-semibold">Secret key</h3>
 		<p class="text-sm text-red-700">This key will only be shown once when it is created</p>
-		{#if privateKey}
+		{#if secretKey}
 			<button
 				class="mt-4 cursor-pointer"
 				on:click={() => {
 					navigator.clipboard.writeText($project.id);
 				}}
 			>
-				{privateKey}
+				{secretKey}
 			</button>
 		{:else}
 			<button
 				class="btn mt-4 cursor-pointer bg-red-800 text-red-50 hover:bg-red-900"
 				on:click={async () => {
-					const res = await ApiService.generateNewPrivateKey($project.id);
+					const res = await ApiService.generateNewSecretKey($project.id);
 					console.log(res);
-					privateKey = res;
+					secretKey = res;
 				}}
 			>
-				Generate new private key
+				Generate new secret key
 			</button>
 		{/if}
 	</div>

@@ -28,9 +28,9 @@ export const ApiService = {
 
 		return data;
 	},
-	generateNewPrivateKey: async (id: string) => {
-		console.log('create new private key');
-		const { data } = await axios.patch<string>(`/projects/${id}/update-private-key`);
+	generateNewSecretKey: async (id: string) => {
+		console.log('create new secret key');
+		const { data } = await axios.patch<string>(`/projects/${id}/update-secret-key`);
 		console.log(data);
 
 		return data;

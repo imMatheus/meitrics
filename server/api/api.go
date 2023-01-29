@@ -25,7 +25,7 @@ func SetupRoutes(app *fiber.App) {
 	app.Get("/projects", GetAllProjects)
 	app.Post("/project", CreateProject)
 	app.Get("/projects/:id", GetProjectById)
-	app.Patch("/projects/:id/update-private-key", UpdatePrivateKeyForProjectById)
+	app.Patch("/projects/:id/update-secret-key", UpdateSecretKeyForProjectById)
 	app.Get("/projects/:id/logs", GetLogForProject)
 	app.Post("/log", CreateLog)
 }

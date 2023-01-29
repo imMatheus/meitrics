@@ -50,11 +50,11 @@ func CreateProject(c *fiber.Ctx) error {
 	return c.JSON(project)
 }
 
-func UpdatePrivateKeyForProjectById(c *fiber.Ctx) error {
+func UpdateSecretKeyForProjectById(c *fiber.Ctx) error {
 	fmt.Println("made it to update route route")
 	id := c.Params("id")
 
-	project, err := database.ChangePrivateKeyForProject(c, id)
+	project, err := database.ChangeSecretKeyForProject(c, id)
 
 	if err != nil {
 		return c.Status(404).SendString(err.Error())

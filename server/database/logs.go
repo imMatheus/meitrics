@@ -12,11 +12,11 @@ import (
 
 type Log struct {
 	ID        string             `json:"id,omitempty" bson:"_id,omitempty"`
-	ProjectID primitive.ObjectID `json:"project_id,omitempty" bson:"project_id,omitempty"`
-	Message   string             `json:"message"`
-	Type      string             `json:"type"`
-	CreatedAt time.Time          `json:"created_at"`
-	UpdatedAt time.Time          `json:"updated_at"`
+	ProjectID primitive.ObjectID `json:"project_id,omitempty" bson:"projectId,omitempty"`
+	Message   string             `json:"message" bson:"message"`
+	Type      string             `json:"type" bson:"type"`
+	CreatedAt time.Time          `json:"created_at" bson:"createdAt"`
+	UpdatedAt time.Time          `json:"updated_at" bson:"updatedAt"`
 }
 
 func GetAllLogsForProjectById(c *fiber.Ctx, id string) ([]Log, error) {
@@ -31,7 +31,7 @@ func GetAllLogsForProjectById(c *fiber.Ctx, id string) ([]Log, error) {
 
 	// limit first 50
 	l := int64(50)
-	fOpt := options.FindOptions{Limit: &l, Sort: bson.D{{Key: "createdat", Value: -1}}}
+	fOpt := options.FindOptions{Limit: &l, Sort: bson.D{{Key: "createdAt", Value: -1}}}
 
 	cursor, err := Ref.Db.Collection("logs").Find(c.Context(), query, &fOpt)
 	if err != nil {
