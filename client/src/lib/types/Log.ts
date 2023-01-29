@@ -1,8 +1,11 @@
 export interface Log {
 	id: string;
-	project_id: string;
+	projectId: string;
 	message: string;
 	type: string;
-	created_at: string;
-	updated_at: string;
+	hostname: string;
+	ip: string;
+	url: string;
+	createdAt: string;
+	updatedAt: string;
 }

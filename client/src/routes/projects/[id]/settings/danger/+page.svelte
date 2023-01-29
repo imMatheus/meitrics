@@ -42,7 +42,7 @@
 			<button
 				class="btn mt-4 cursor-pointer bg-red-800 text-red-50 hover:bg-red-900"
 				on:click={async () => {
-					const res = await ApiService.generateNewSecretKey($project.id);
+					const res = await ApiService.generateNewSecretKey(secretKey);
 					console.log(res);
 					secretKey = res;
 				}}

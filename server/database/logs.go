@@ -1,7 +1,6 @@
 package database
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -17,6 +16,7 @@ type Log struct {
 	Type      string             `json:"type" bson:"type"`
 	Ip        string             `json:"ip" bson:"ip"`
 	Url       string             `json:"url" bson:"url"`
+	Hostname  string             `json:"hostname" bson:"hostname"`
 	CreatedAt time.Time          `json:"createdAt" bson:"createdAt"`
 	UpdatedAt time.Time          `json:"updatedAt" bson:"updatedAt"`
 }
@@ -29,7 +29,7 @@ func GetAllLogsForProjectById(c *fiber.Ctx, id string) ([]Log, error) {
 	}
 
 	// get all records as a cursor
-	query := bson.D{{Key: "project_id", Value: _id}}
+	query := bson.D{{Key: "projectId", Value: _id}}
 
 	// limit first 50
 	l := int64(50)
@@ -83,10 +83,10 @@ func CreateLogForProject(c *fiber.Ctx, id string) (Log, error) {
 		return Log{}, err
 	}
 
-	// validating that the client sent a valid message field
-	if log.Message == "" {
-		return Log{}, fmt.Errorf("bitch give me a message")
-	}
+	// // validating that the client sent a valid message field
+	// if log.Message == "" {
+	// 	return Log{}, fmt.Errorf("bitch give me a message")
+	// }
 
 	ValidTypes := []string{"error", "warning", "info", "other"}
 
@@ -98,6 +98,7 @@ func CreateLogForProject(c *fiber.Ctx, id string) (Log, error) {
 	// force MongoDB to always set its own generated ObjectIDs
 	log.ID = ""
 	log.Ip = c.IP()
+	log.Hostname = c.Hostname()
 	log.ProjectID = _id
 	log.CreatedAt = time.Now()
 	log.UpdatedAt = time.Now()

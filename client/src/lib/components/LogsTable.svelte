@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type { Log } from '$lib/types';
 	export let logs: Log[];
+	console.log(logs);
+
 	import classNames from 'classnames';
 </script>
 
@@ -10,6 +12,15 @@
 			<tr>
 				<th class="h-full font-normal">
 					<div class="flex items-center px-2">Type</div>
+				</th>
+				<th class="h-full font-normal">
+					<div class="flex items-center px-2">Url</div>
+				</th>
+				<th class="h-full font-normal">
+					<div class="flex items-center px-2">IP address</div>
+				</th>
+				<th class="h-full font-normal">
+					<div class="flex items-center px-2">Hostname</div>
 				</th>
 				<th class="h-full font-normal">
 					<div class="flex items-center px-2">Message</div>
@@ -45,6 +56,27 @@
 
 					<td class="relative h-full">
 						<div
+							class="peer flex h-full min-w-[0rem] max-w-lg items-center overflow-hidden text-ellipsis whitespace-nowrap px-2"
+						>
+							{log.url}
+						</div>
+					</td>
+					<td class="relative h-full">
+						<div
+							class="peer flex h-full min-w-[0rem] max-w-lg items-center overflow-hidden text-ellipsis whitespace-nowrap px-2"
+						>
+							{log.ip}
+						</div>
+					</td>
+					<td class="relative h-full">
+						<div
+							class="peer flex h-full min-w-[16rem] max-w-lg items-center overflow-hidden text-ellipsis whitespace-nowrap px-2"
+						>
+							{log.hostname}
+						</div>
+					</td>
+					<td class="relative h-full">
+						<div
 							class="peer flex h-full min-w-[16rem] max-w-lg items-center overflow-hidden text-ellipsis whitespace-nowrap px-2"
 						>
 							{log.message}
@@ -56,9 +88,9 @@
 							class="h-ful peer flex max-w-lg items-center overflow-hidden text-ellipsis whitespace-nowrap px-2"
 						>
 							{new Intl.DateTimeFormat(undefined, {
-								dateStyle: 'short',
-								timeStyle: 'medium'
-							}).format(new Date(log.created_at))}
+								dateStyle: 'medium'
+								// timeStyle: 'medium'
+							}).format(new Date(log.createdAt))}
 						</div>
 					</td>
 				</tr>
